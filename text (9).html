@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Display Form</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: black; /* Set background to black */
+      color: white; /* Set text color to white */
+    }
+
+    #container {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Enter Text</h1>
+    <form id="myForm">
+      <label for="textInput">Your Text:</label>
+      <input type="text" id="textInput" name="textInput"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    <div id="displayText"></div>
+    <button id="deleteButton">Delete Text</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('myForm');
+    const inputField = document.getElementById('textInput');
+    const displayArea = document.getElementById('displayText');
+    const deleteButton = document.getElementById('deleteButton');
+
+    // Load text from local storage on page load
+    window.addEventListener('load', () => {
+      const storedText = localStorage.getItem('enteredText');
+      if (storedText) {
+        displayArea.textContent = storedText;
+      }
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const newText = inputField.value;
+      // Append the new text to the existing text
+      displayArea.textContent += newText + '\n'; 
+      localStorage.setItem('enteredText', displayArea.textContent); // Store updated text
+      inputField.value = ''; // Clear the input field
+    });
+
+    deleteButton.addEventListener('click', () => {
+      displayArea.textContent = ''; // Clear the display area
+      localStorage.removeItem('enteredText'); // Remove text from local storage
+    });
+  </script>
+</body>
+</html>
